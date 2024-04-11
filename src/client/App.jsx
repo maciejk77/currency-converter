@@ -8,7 +8,7 @@ function App() {
   const [currencies, setCurrencies] = useState([]);
   const [targetCurrency, setTargetCurrency] = useState('');
   const [targetRate, setTargetRate] = useState();
-  const [history, setHistory] = useState();
+  // const [history, setHistory] = useState();
 
   useEffect(() => {
     fetch('/currencies')
