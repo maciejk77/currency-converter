@@ -3,6 +3,7 @@
 Initial set up with [Vite-express](https://github.com/szymmis/vite-express) `npx create-vite-express`
 
 Clone project and install packages `npm i`
+Run project `npm run dev`
 
 Front end
 
