@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 function App() {
   const [amount, setAmount] = useState();
@@ -6,11 +6,11 @@ function App() {
 
   const [baseCurrency, setBaseCurrency] = useState();
   const [currencies, setCurrencies] = useState([]);
-  const [targetCurrency, setTargetCurrency] = useState("");
+  const [targetCurrency, setTargetCurrency] = useState('');
   const [targetRate, setTargetRate] = useState();
 
   useEffect(() => {
-    fetch("/currencies")
+    fetch('/currencies')
       .then((res) => res.json())
       .then((data) => setCurrencies(data));
   }, []);
@@ -50,21 +50,33 @@ function App() {
     if (!amount) return;
 
     const value = targetRate * amount;
-    const formatter = new Intl.NumberFormat("en-GB", {
-      style: "currency",
+    const formatter = new Intl.NumberFormat('en-GB', {
+      style: 'currency',
       currency: targetCurrency,
     });
 
     const formattedValue = formatter.format(value);
     setExchangedAmount(formattedValue);
+
+    fetch('/history', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        baseAmount: `${baseCurrency} ${amount}`,
+        targetAmount: formattedValue,
+        timestamp: new Date(),
+      }),
+    });
   };
 
   return (
     <>
-      <div style={styles.flex}>
-        <div style={styles.flex}>
-          <div>Amount:</div>
-          <input onChange={handleInputChange} type="number" />
+      <div className="flex-row">
+        <div className="flex-row">
+          <div className="padding-h align-items-c">Amount:</div>
+          <input onChange={handleInputChange} type="number" min={0} />
           <select onChange={handleBaseCurrencyChange}>
             {currencies.map((currency) => (
               <option key={currency} value={currency} name={currency}>
@@ -74,9 +86,9 @@ function App() {
           </select>
         </div>
 
-        <div style={styles.flex}>
-          <div>Exchange to:</div>
-          <select onChange={handleTargetCurrencyChange}>
+        <div className="flex-row">
+          <div className="padding-h align-items-c">Exchange to:</div>
+          <select className="padding-5" onChange={handleTargetCurrencyChange}>
             {currencies.map((currency) => {
               return (
                 <option key={currency} value={currency}>
@@ -86,18 +98,19 @@ function App() {
             })}
           </select>
         </div>
-        <button onClick={handleExchange} type="button">
+        <button className="margin-l" onClick={handleExchange} type="button">
           Calculate
         </button>
       </div>
-      <div>{exchangedAmount}</div>
+      <hr />
+      <div className="padding-h">{exchangedAmount ? exchangedAmount : ''}</div>
     </>
   );
 }
 
 const styles = {
   flex: {
-    display: "flex",
+    display: 'flex',
   },
 };
 
