@@ -16,6 +16,11 @@ function App() {
       .then((data) => setCurrencies(data));
   }, []);
 
+  useEffect(() => {
+    setBaseCurrency(currencies[0]);
+    setTargetCurrency(currencies[0]);
+  }, [currencies]);
+
   const handleInputChange = (e) => {
     const { value } = e.target;
     setAmount(value);
