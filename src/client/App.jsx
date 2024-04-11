@@ -57,7 +57,10 @@ function App() {
 
     const formattedValue = formatter.format(value);
     setExchangedAmount(formattedValue);
+    updateHistoryWithExchangedAmount(formattedValue);
+  };
 
+  const updateHistoryWithExchangedAmount = (targetAmount) => {
     fetch('/history', {
       method: 'POST',
       headers: {
@@ -65,7 +68,7 @@ function App() {
       },
       body: JSON.stringify({
         baseAmount: `${baseCurrency} ${amount}`,
-        targetAmount: formattedValue,
+        targetAmount,
         timestamp: new Date(),
       }),
     });
@@ -103,7 +106,7 @@ function App() {
         </button>
       </div>
       <hr />
-      <div className="padding-h">{exchangedAmount ? exchangedAmount : ''}</div>
+      <div className="padding-h">{exchangedAmount}</div>
     </>
   );
 }
