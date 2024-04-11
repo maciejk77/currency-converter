@@ -8,7 +8,8 @@ Front end
 
 - Visit [localhost:3000](http://localhost:3000/)
 
-API
+APIs
 
-- Visit [`localhost:3000/currencies`](http://localhost:3000/currencies)
-- Visit Visit [`localhost:3000/currencies/usd`](http://localhost:3000/currencies/usd) (usd, eur, gbp etc.)
+- List of currencies [`localhost:3000/currencies`](http://localhost:3000/currencies)
+- Exchange rate for given currency [`localhost:3000/currencies/usd`](http://localhost:3000/currencies/usd) (ie USD)
+- [`API source/documentation`](https://www.exchangerate-api.com/docs/free)
