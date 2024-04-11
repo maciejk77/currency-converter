@@ -8,6 +8,7 @@ function App() {
   const [currencies, setCurrencies] = useState([]);
   const [targetCurrency, setTargetCurrency] = useState('');
   const [targetRate, setTargetRate] = useState();
+  const [history, setHistory] = useState();
 
   useEffect(() => {
     fetch('/currencies')
@@ -28,6 +29,12 @@ function App() {
         .then((rate) => setTargetRate(rate));
     }
   }, [baseCurrency, targetCurrency]);
+
+  // useEffect(() => {
+  //   fetch('/history')
+  //     .then((res) => res.json())
+  //     .then((data) => setHistory(data));
+  // }, []);
 
   const handleInputChange = (e) => {
     const { value } = e.target;
@@ -57,22 +64,22 @@ function App() {
 
     const formattedValue = formatter.format(value);
     setExchangedAmount(formattedValue);
-    updateHistoryWithExchangedAmount(formattedValue);
+    // updateHistoryWithExchangedAmount(formattedValue);
   };
 
-  const updateHistoryWithExchangedAmount = (targetAmount) => {
-    fetch('/history', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        baseAmount: `${baseCurrency} ${amount}`,
-        targetAmount,
-        timestamp: new Date(),
-      }),
-    });
-  };
+  // const updateHistoryWithExchangedAmount = (targetAmount) => {
+  //   fetch('/history', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       baseAmount: `${baseCurrency} ${amount}`,
+  //       targetAmount,
+  //       timestamp: new Date(),
+  //     }),
+  //   });
+  // };
 
   return (
     <>
@@ -107,6 +114,11 @@ function App() {
       </div>
       <hr />
       <div className="padding-h">{exchangedAmount}</div>
+      {/* <div>
+        Last calculation: {history?.targetAmount} on{' '}
+        {history?.timestamp?.split('T')[0]} at{' '}
+        {history?.timestamp?.split('T')[1]}
+      </div> */}
     </>
   );
 }

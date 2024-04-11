@@ -1,6 +1,16 @@
 import express from 'express';
 import ViteExpress from 'vite-express';
 
+// import fs from 'fs';
+// import path from 'path';
+
+// import { fileURLToPath } from 'url';
+// import { dirname } from 'path';
+
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+
+// const filePath = path.join(__dirname, 'history.json');
 const BASE_URL = 'https://open.er-api.com/v6/latest';
 const app = express();
 
@@ -19,16 +29,21 @@ app.get('/currencies/:id', async (req, res) => {
   res.send(rates);
 });
 
-app.get('/history', async (req, res) => {
-  // read from DB or history.json via Node fs
-  // return a list of searches to the frontend
-});
+// app.get('/history', async (req, res) => {
+//   const existingData = fs.readFileSync(filePath, 'utf-8');
+//   console.log(existingData);
+//   res.send(existingData);
+// });
 
-app.post('/history', async (req, res) => {
-  console.log(req.body);
-  // persist the req.body data here
-  // to DB or history.json via Node fs
-});
+// app.post('/history', async (req, res) => {
+//   const incomingData = JSON.stringify(req.body);
+
+//   try {
+//     fs.writeFileSync(filePath, incomingData);
+//   } catch (error) {
+//     console.error('Error writing JSON data to file: ', error);
+//   }
+// });
 
 ViteExpress.listen(app, 3000, () =>
   console.log('Server is listening on port 3000...')
