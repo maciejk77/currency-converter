@@ -14,6 +14,19 @@ import ViteExpress from 'vite-express';
 const BASE_URL = 'https://open.er-api.com/v6/latest';
 const app = express();
 
+// const writeToHistory = (incomingData) => {
+//   if (fs.existsSync(filePath)) {
+//     try {
+//       const history = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+//       fs.writeFileSync(filePath, JSON.stringify([...history, incomingData]));
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   } else {
+//     fs.writeFileSync(filePath, JSON.stringify([incomingData]));
+//   }
+// };
+
 app.use(express.json());
 
 app.get('/currencies', async (req, res) => {
@@ -30,21 +43,19 @@ app.get('/currencies/:id', async (req, res) => {
 });
 
 // app.get('/history', async (req, res) => {
-//   const existingData = fs.readFileSync(filePath, 'utf-8');
-//   console.log(existingData);
-//   res.send(existingData);
+//   if (fs.existsSync(filePath)) {
+//     const existingData = fs.readFileSync(filePath, 'utf-8');
+//     res.send(existingData);
+//   } else {
+//     res.send([]);
+//   }
 // });
 
 // app.post('/history', async (req, res) => {
 //   const incomingData = JSON.stringify(req.body);
-
-//   try {
-//     fs.writeFileSync(filePath, incomingData);
-//   } catch (error) {
-//     console.error('Error writing JSON data to file: ', error);
-//   }
+//   writeToHistory(incomingData);
 // });
 
-ViteExpress.listen(app, 3000, () =>
-  console.log('Server is listening on port 3000...')
-);
+ViteExpress.listen(app, 3000, () => {
+  console.log('Server is listening on port 3000...');
+});

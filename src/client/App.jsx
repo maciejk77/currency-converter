@@ -8,7 +8,9 @@ function App() {
   const [currencies, setCurrencies] = useState([]);
   const [targetCurrency, setTargetCurrency] = useState('');
   const [targetRate, setTargetRate] = useState();
-  // const [history, setHistory] = useState();
+  // const [history, setHistory] = useState([]);
+
+  // console.log('history:: ', history);
 
   useEffect(() => {
     fetch('/currencies')
@@ -34,7 +36,7 @@ function App() {
   //   fetch('/history')
   //     .then((res) => res.json())
   //     .then((data) => setHistory(data));
-  // }, []);
+  // }, [history]);
 
   const handleInputChange = (e) => {
     const { value } = e.target;
@@ -53,7 +55,8 @@ function App() {
     setExchangedAmount(null);
   };
 
-  const handleExchange = () => {
+  const handleExchange = (e) => {
+    e.preventDefault();
     if (!amount) return;
 
     const value = targetRate * amount;
@@ -114,11 +117,9 @@ function App() {
       </div>
       <hr />
       <div className="padding-h">{exchangedAmount}</div>
-      {/* <div>
-        Last calculation: {history?.targetAmount} on{' '}
-        {history?.timestamp?.split('T')[0]} at{' '}
-        {history?.timestamp?.split('T')[1]}
-      </div> */}
+      {/* Iterate over history object
+      ie. $2000 on 25/02/2023 at 14:45   */}
+      {/* <div>History:{JSON.stringify(history)}</div> */}
     </>
   );
 }
