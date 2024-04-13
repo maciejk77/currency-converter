@@ -8,9 +8,7 @@ function App() {
   const [currencies, setCurrencies] = useState([]);
   const [targetCurrency, setTargetCurrency] = useState('');
   const [targetRate, setTargetRate] = useState();
-  // const [history, setHistory] = useState([]);
-
-  // console.log('history:: ', history);
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
     fetch('/currencies')
@@ -32,11 +30,9 @@ function App() {
     }
   }, [baseCurrency, targetCurrency]);
 
-  // useEffect(() => {
-  //   fetch('/history')
-  //     .then((res) => res.json())
-  //     .then((data) => setHistory(data));
-  // }, [history]);
+  useEffect(() => {
+    handleHistoryFetch();
+  }, []);
 
   const handleInputChange = (e) => {
     const { value } = e.target;
@@ -67,29 +63,41 @@ function App() {
 
     const formattedValue = formatter.format(value);
     setExchangedAmount(formattedValue);
-    // updateHistoryWithExchangedAmount(formattedValue);
+    updateHistoryWithExchangedAmount(formattedValue);
   };
 
-  // const updateHistoryWithExchangedAmount = (targetAmount) => {
-  //   fetch('/history', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       baseAmount: `${baseCurrency} ${amount}`,
-  //       targetAmount,
-  //       timestamp: new Date(),
-  //     }),
-  //   });
-  // };
+  const updateHistoryWithExchangedAmount = (targetAmount) => {
+    try {
+      fetch('/history', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          baseAmount: `${baseCurrency} ${amount}`,
+          targetAmount,
+          timestamp: new Date(),
+        }),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleHistoryFetch = async () => {
+    const response = await fetch('/history');
+    const data = await response.json();
+    setHistory(data);
+  };
 
   return (
     <>
       <div className="flex-row">
         <div className="flex-row">
           <div className="padding-h align-items-c">Amount:</div>
+
           <input onChange={handleInputChange} type="number" min={0} />
+
           <select onChange={handleBaseCurrencyChange}>
             {currencies.map((currency) => (
               <option key={currency} value={currency} name={currency}>
@@ -101,6 +109,7 @@ function App() {
 
         <div className="flex-row">
           <div className="padding-h align-items-c">Exchange to:</div>
+
           <select className="padding-5" onChange={handleTargetCurrencyChange}>
             {currencies.map((currency) => {
               return (
@@ -111,15 +120,32 @@ function App() {
             })}
           </select>
         </div>
+
         <button className="margin-l" onClick={handleExchange} type="button">
           Calculate
         </button>
       </div>
       <hr />
-      <div className="padding-h">{exchangedAmount}</div>
-      {/* Iterate over history object
-      ie. $2000 on 25/02/2023 at 14:45   */}
-      {/* <div>History:{JSON.stringify(history)}</div> */}
+
+      <div className="padding-h">
+        <b>{exchangedAmount}</b>
+      </div>
+      <>
+        {history.map((item, index) => {
+          const { baseAmount, targetAmount, timestamp } = JSON.parse(item);
+          const date = new Date(timestamp);
+          const dateStr = date.toDateString();
+          const timeStr = date.toLocaleTimeString([], {
+            timeZoneName: 'short',
+          });
+
+          return (
+            <div className="padding-h" key={index}>
+              {baseAmount} =&gt; {targetAmount} | {dateStr} | {timeStr}
+            </div>
+          );
+        })}
+      </>
     </>
   );
 }
