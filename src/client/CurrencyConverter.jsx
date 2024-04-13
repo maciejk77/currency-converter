@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { formatCurrency } from './utils';
 import useCurrenciesData from './hooks/useCurrenciesData';
 
-function App() {
+function CurrencyConverter() {
   const [inputAmount, setInputAmount] = useState();
   const [convertedAmount, setConvertedAmount] = useState();
   const [fromCurrency, setFromCurrency] = useState();
@@ -158,4 +158,4 @@ function App() {
   );
 }
 
-export default App;
+export default CurrencyConverter;
