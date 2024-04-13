@@ -8,30 +8,51 @@ const app = express();
 app.use(express.json());
 
 app.get('/currencies', async (req, res) => {
-  const { rates } = await fetch(API_URL).then((res) => res.json());
+  try {
+    const response = await fetch(API_URL);
+    const { rates } = await response.json();
 
-  res.send(Object.keys(rates));
-});
-
-app.get('/currencies/:id', async (req, res) => {
-  const { id } = req.params;
-  const { rates } = await fetch(`${API_URL}/${id}`).then((res) => res.json());
-
-  res.send(rates);
-});
-
-app.get('/history', async (req, res) => {
-  if (fs.existsSync(filePath)) {
-    const existingData = fs.readFileSync(filePath, 'utf-8');
-    res.send(existingData);
-  } else {
-    res.send([]);
+    res.status(200).send(Object.keys(rates));
+  } catch {
+    console.error(err);
+    res.status(500).send('Error fetching currencies');
   }
 });
 
-app.post('/history', async (req, res) => {
-  const historyItem = JSON.stringify(req.body);
-  writeToHistory(historyItem);
+app.get('/currencies/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await fetch(`${API_URL}/${id}`);
+    const { rates } = await response.json();
+
+    res.status(200).send(rates);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Error fetching rates for ${id}`);
+  }
+});
+
+app.get('/history', (req, res) => {
+  try {
+    if (fs.existsSync(filePath)) {
+      const existingData = fs.readFileSync(filePath, 'utf-8');
+      res.status(200).send(existingData);
+    } else {
+      res.status(200).send([]);
+    }
+  } catch (err) {
+    res.status(500).send(`Error fetching history data`);
+  }
+});
+
+app.post('/history', (req, res) => {
+  try {
+    const historyItem = JSON.stringify(req.body);
+    writeToHistory(historyItem);
+    res.status(200).send('Item added to history');
+  } catch (err) {
+    res.status(500).send(`Error while adding history to DB`);
+  }
 });
 
 ViteExpress.listen(app, 3000, () => {
