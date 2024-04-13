@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
+import { formatCurrency } from './utils';
 import useCurrenciesData from './hooks/useCurrenciesData';
 
 function App() {
   const [inputAmount, setInputAmount] = useState();
   const [convertedAmount, setConvertedAmount] = useState();
-
   const [fromCurrency, setFromCurrency] = useState();
-  const [toCurrency, setToCurrency] = useState('');
+  const [toCurrency, setToCurrency] = useState();
   const [conversionRate, setConversionRate] = useState();
-
   const [history, setHistory] = useState([]);
 
   // example of custom hook to fetch currencies data on mount
@@ -63,13 +62,12 @@ function App() {
     e.preventDefault();
     if (!inputAmount) return;
 
-    const value = conversionRate * inputAmount;
-    const formatter = new Intl.NumberFormat('en-GB', {
-      style: 'currency',
-      currency: toCurrency,
-    });
+    const formattedValue = formatCurrency(
+      conversionRate,
+      inputAmount,
+      toCurrency
+    );
 
-    const formattedValue = formatter.format(value);
     setConvertedAmount(formattedValue);
     addConversionToHistory(formattedValue);
   };
