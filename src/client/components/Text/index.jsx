@@ -1,5 +1,5 @@
-const Text = ({ children }) => (
-  <div className="padding-h align-items-c">{children}</div>
-);
+import './styles.css';
+
+const Text = ({ children }) => <div className="text-root">{children}</div>;
 
 export default Text;

@@ -1,0 +1,19 @@
+.conversion-history-root {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
+  margin-top: 2px;
+  padding: 5px;
+  width: 750px;
+}
+
+.history-item {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  justify-content: space-between;
+  border: 1px solid lightgrey;
+  padding: 10px;
+  padding-left: 45px;
+  margin: 5px;
+  line-height: 18px;
+}

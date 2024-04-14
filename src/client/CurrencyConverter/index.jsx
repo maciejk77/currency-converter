@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react';
 import { formatCurrency } from '../utils';
 import useCurrenciesData from '../hooks/useCurrenciesData';
-import {
-  Button,
-  FlexRow,
-  ConversionHistory,
-  Input,
-  Select,
-  Text,
-} from '../components';
+import { Button, ConversionHistory, Input, Select, Text } from '../components';
+import './styles.css';
 
 function CurrencyConverter() {
   const { currencies } = useCurrenciesData();
+
   const [inputAmount, setInputAmount] = useState();
   const [convertedAmount, setConvertedAmount] = useState();
   const [fromCurrency, setFromCurrency] = useState();
@@ -101,9 +96,9 @@ function CurrencyConverter() {
   };
 
   return (
-    <>
-      <FlexRow>
-        <FlexRow>
+    <div className="container">
+      <div className="top-container">
+        <div className="flex-row-spacer">
           <Text>Amount:</Text>
           <Input
             onChange={handleInputChange}
@@ -111,31 +106,39 @@ function CurrencyConverter() {
             type="number"
             value={inputAmount}
           />
+        </div>
+        <div className="flex-row-spacer">
+          <Text>From:</Text>
           <Select
             data={currencies}
             onChange={handleFromCurrencyChange}
             value={fromCurrency}
           />
-        </FlexRow>
+        </div>
 
-        <FlexRow>
-          <Text>Convert to:</Text>
+        <div className="flex-row-spacer">
+          <Text>To:</Text>
           <Select
             data={currencies}
             onChange={handleToCurrencyChange}
             value={toCurrency}
           />
-        </FlexRow>
+        </div>
 
-        <Button onClick={handleConvertCurrency}>Calculate</Button>
-      </FlexRow>
+        <div className="flex-row-spacer">
+          <Button onClick={handleConvertCurrency}>Calculate</Button>
+        </div>
+      </div>
 
-      <Text>
-        <b>{convertedAmount}</b>
-      </Text>
+      <div className="conversion-container">
+        <Text>
+          Conversion Result:{' '}
+          {convertedAmount ? <b>{convertedAmount}</b> : 'n/a'}
+        </Text>
+      </div>
 
       <ConversionHistory data={conversionHistory} />
-    </>
+    </div>
   );
 }
 

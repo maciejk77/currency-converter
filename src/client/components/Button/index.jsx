@@ -1,5 +1,7 @@
+import './styles.css';
+
 const Button = ({ children, onClick }) => (
-  <button className="margin-l" onClick={onClick} type="button">
+  <button className="button-root" onClick={onClick} type="button">
     {children}
   </button>
 );

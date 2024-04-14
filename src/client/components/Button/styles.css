@@ -1,0 +1,17 @@
+.button-root {
+  align-items: center;
+  background-color: black;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+  height: 45px;
+  padding: 10px 20px;
+}
+
+.flex-row-spacer {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}

@@ -1,5 +1,13 @@
+import './styles.css';
+
 const Input = ({ onChange, min, type, value }) => (
-  <input onChange={onChange} min={min} type={type} defaultValue={value} />
+  <input
+    className="input-root"
+    defaultValue={value}
+    min={min}
+    onChange={onChange}
+    type={type}
+  />
 );
 
 export default Input;

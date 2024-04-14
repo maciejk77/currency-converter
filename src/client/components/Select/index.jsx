@@ -1,5 +1,7 @@
+import './styles.css';
+
 const Select = ({ data, value, onChange }) => (
-  <select value={value} onChange={onChange}>
+  <select className="select-root" onChange={onChange} value={value}>
     {data.map((item) => (
       <option key={item} value={item}>
         {item}

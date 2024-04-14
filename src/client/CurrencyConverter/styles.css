@@ -1,0 +1,21 @@
+.container {
+  border: 1px solid lightgray;
+  padding: 10px;
+  width: 760px;
+}
+
+.top-container {
+  display: flex;
+  background-color: khaki;
+  border: 1px solid gray;
+  justify-content: space-between;
+  padding: 5px;
+  width: 750px;
+}
+
+.conversion-container {
+  height: 20px;
+  margin-top: 2px;
+  padding: 15px 0 5px 15px;
+  width: 740px;
+}
