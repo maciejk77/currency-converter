@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
-import { formatCurrency } from './utils';
-import useCurrenciesData from './hooks/useCurrenciesData';
+import { formatCurrency } from '../utils';
+import useCurrenciesData from '../hooks/useCurrenciesData';
+import {
+  Button,
+  FlexRow,
+  ConversionHistory,
+  Input,
+  Select,
+  Text,
+} from '../components';
 
 function CurrencyConverter() {
+  const { currencies } = useCurrenciesData();
   const [inputAmount, setInputAmount] = useState();
   const [convertedAmount, setConvertedAmount] = useState();
   const [fromCurrency, setFromCurrency] = useState();
   const [toCurrency, setToCurrency] = useState();
   const [conversionRate, setConversionRate] = useState();
-  const [history, setHistory] = useState([]);
-
-  // example of custom hook to fetch currencies data on mount
-  const { currencies } = useCurrenciesData();
+  const [conversionHistory, setConversionHistory] = useState([]);
 
   useEffect(() => {
     setFromCurrency(currencies[0]);
@@ -55,7 +61,7 @@ function CurrencyConverter() {
   const handleHistoryFetch = async () => {
     const response = await fetch('/history');
     const data = await response.json();
-    setHistory(data);
+    setConversionHistory(data);
   };
 
   const handleConvertCurrency = (e) => {
@@ -96,64 +102,39 @@ function CurrencyConverter() {
 
   return (
     <>
-      <div className="flex-row">
-        <div className="flex-row">
-          <div className="padding-h align-items-c">Amount:</div>
+      <FlexRow>
+        <FlexRow>
+          <Text>Amount:</Text>
+          <Input
+            onChange={handleInputChange}
+            min={0}
+            type="number"
+            value={inputAmount}
+          />
+          <Select
+            data={currencies}
+            onChange={handleFromCurrencyChange}
+            value={fromCurrency}
+          />
+        </FlexRow>
 
-          <input onChange={handleInputChange} type="number" min={0} />
+        <FlexRow>
+          <Text>Convert to:</Text>
+          <Select
+            data={currencies}
+            onChange={handleToCurrencyChange}
+            value={toCurrency}
+          />
+        </FlexRow>
 
-          <select onChange={handleFromCurrencyChange}>
-            {currencies.map((currency) => (
-              <option key={currency} value={currency} name={currency}>
-                {currency}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Button onClick={handleConvertCurrency}>Calculate</Button>
+      </FlexRow>
 
-        <div className="flex-row">
-          <div className="padding-h align-items-c">Convert to:</div>
-
-          <select className="padding-5" onChange={handleToCurrencyChange}>
-            {currencies.map((currency) => {
-              return (
-                <option key={currency} value={currency}>
-                  {currency}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
-        <button
-          className="margin-l"
-          onClick={handleConvertCurrency}
-          type="button"
-        >
-          Calculate
-        </button>
-      </div>
-      <hr />
-
-      <div className="padding-h">
+      <Text>
         <b>{convertedAmount}</b>
-      </div>
-      <>
-        {history.map((item, index) => {
-          const { fromAmount, toAmount, timestamp } = JSON.parse(item);
-          const date = new Date(timestamp);
-          const dateStr = date.toDateString();
-          const timeStr = date.toLocaleTimeString([], {
-            timeZoneName: 'short',
-          });
+      </Text>
 
-          return (
-            <div className="padding-h" key={index}>
-              {fromAmount} =&gt; {toAmount} | {dateStr} | {timeStr}
-            </div>
-          );
-        })}
-      </>
+      <ConversionHistory data={conversionHistory} />
     </>
   );
 }
