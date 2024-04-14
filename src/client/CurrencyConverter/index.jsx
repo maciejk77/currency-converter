@@ -41,15 +41,9 @@ function CurrencyConverter() {
     setInputAmount(value);
   };
 
-  const handleFromCurrencyChange = (e) => {
+  const handleCurrencyChange = (e, setCurrency) => {
     const { value } = e.target;
-    setFromCurrency(value);
-    setConvertedAmount(null);
-  };
-
-  const handleToCurrencyChange = (e) => {
-    const { value } = e.target;
-    setToCurrency(value);
+    setCurrency(value);
     setConvertedAmount(null);
   };
 
@@ -111,7 +105,7 @@ function CurrencyConverter() {
           <Text>From:</Text>
           <Select
             data={currencies}
-            onChange={handleFromCurrencyChange}
+            onChange={(e) => handleCurrencyChange(e, setFromCurrency)}
             value={fromCurrency}
           />
         </div>
@@ -120,7 +114,7 @@ function CurrencyConverter() {
           <Text>To:</Text>
           <Select
             data={currencies}
-            onChange={handleToCurrencyChange}
+            onChange={(e) => handleCurrencyChange(e, setToCurrency)}
             value={toCurrency}
           />
         </div>
