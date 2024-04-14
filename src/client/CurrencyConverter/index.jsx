@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { formatCurrency } from '../utils';
+import { addConversionToHistory, formatCurrency } from '../utils';
 import useCurrenciesData from '../hooks/useCurrenciesData';
 import { Button, ConversionHistory, Input, Select, Text } from '../components';
 import './styles.css';
@@ -65,28 +65,6 @@ function CurrencyConverter() {
 
     setConvertedAmount(formattedToAmount);
     addConversionToHistory(formattedFromAmount, formattedToAmount);
-  };
-
-  const addConversionToHistory = async (fromAmount, toAmount) => {
-    try {
-      const response = await fetch('/history', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          fromAmount,
-          toAmount,
-          timestamp: new Date(),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save history');
-      }
-    } catch (err) {
-      console.error(err);
-    }
   };
 
   return (
