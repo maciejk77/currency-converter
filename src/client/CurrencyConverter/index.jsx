@@ -61,19 +61,19 @@ function CurrencyConverter() {
 
   const handleConvertCurrency = (e) => {
     e.preventDefault();
-    if (!inputAmount) return;
+    if (!inputAmount || fromCurrency === toCurrency) return;
 
-    const formattedValue = formatCurrency(
-      conversionRate,
-      inputAmount,
+    const formattedFromAmount = formatCurrency(inputAmount, fromCurrency);
+    const formattedToAmount = formatCurrency(
+      conversionRate * inputAmount,
       toCurrency
     );
 
-    setConvertedAmount(formattedValue);
-    addConversionToHistory(formattedValue);
+    setConvertedAmount(formattedToAmount);
+    addConversionToHistory(formattedFromAmount, formattedToAmount);
   };
 
-  const addConversionToHistory = async (toAmount) => {
+  const addConversionToHistory = async (fromAmount, toAmount) => {
     try {
       const response = await fetch('/history', {
         method: 'POST',
@@ -81,7 +81,7 @@ function CurrencyConverter() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fromAmount: `${fromCurrency} ${inputAmount}`,
+          fromAmount,
           toAmount,
           timestamp: new Date(),
         }),

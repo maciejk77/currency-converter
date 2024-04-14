@@ -1,5 +1,4 @@
-export const formatCurrency = (conversionRate, inputAmount, currency) => {
-  const value = conversionRate * inputAmount;
+export const formatCurrency = (value, currency) => {
   const formatter = new Intl.NumberFormat('en-GB', {
     style: 'currency',
     currency,
