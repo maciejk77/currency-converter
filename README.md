@@ -15,3 +15,7 @@ APIs
 - List of currencies [`localhost:3000/currencies`](http://localhost:3000/currencies)
 - Exchange rate for given currency [`localhost:3000/currencies/usd`](http://localhost:3000/currencies/usd) (ie USD)
 - [`API source/documentation`](https://www.exchangerate-api.com/docs/free)
+
+## Screenshot
+
+<img src="public/screenshot.png" width="800">
