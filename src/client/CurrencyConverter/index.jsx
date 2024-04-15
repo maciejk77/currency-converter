@@ -34,7 +34,7 @@ function CurrencyConverter() {
 
   useEffect(() => {
     handleHistoryFetch();
-  }, []);
+  }, [conversionHistory]);
 
   const handleInputChange = (e) => {
     const { value } = e.target;
@@ -69,7 +69,7 @@ function CurrencyConverter() {
 
   return (
     <div className="container">
-      <div className="top-container">
+      <form className="top-container" onSubmit={handleConvertCurrency}>
         <div className="flex-row-spacer">
           <Text>Amount:</Text>
           <Input
@@ -98,9 +98,9 @@ function CurrencyConverter() {
         </div>
 
         <div className="flex-row-spacer">
-          <Button onClick={handleConvertCurrency}>Calculate</Button>
+          <Button type="submit">Calculate</Button>
         </div>
-      </div>
+      </form>
 
       <div className="conversion-container">
         <Text>
